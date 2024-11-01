@@ -55,7 +55,7 @@ header {
     flex-direction: column;
     gap: 0.2rem;
     .details-row {
-        margin-top: 1rem;
+      margin-top: 1rem;
       display: flex;
       justify-content: space-between;
       .custom-select {
@@ -70,7 +70,8 @@ header {
   }
   .buttons {
     margin-top: 1rem;
-    #add-btn, #close-btn {
+    #add-btn,
+    #close-btn {
       font: inherit;
       font-size: 0.8rem;
       background-color: transparent;
@@ -78,13 +79,15 @@ header {
       border-radius: 0.5rem;
       padding: 0.4rem 1rem;
     }
-    #add-btn:hover, #close-btn:hover {
-        background-color: black;
-        color: rgb(245, 243, 215);
-      }
-      #add-btn:active, #close-btn:active {
-        scale: 0.98;
-      }
+    #add-btn:hover,
+    #close-btn:hover {
+      background-color: black;
+      color: rgb(245, 243, 215);
+    }
+    #add-btn:active,
+    #close-btn:active {
+      scale: 0.98;
+    }
   }
 }
 
@@ -102,23 +105,40 @@ header {
     ul {
       list-style: none;
       .toDo {
-        border-bottom: 2px solid blue;
+        border-bottom: 2px solid red;
         margin-bottom: 1rem;
+        .toDo-top-line {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .task-buttons {
+            button {
+              border-style: none;
+            }
+          }
+        }
         .details-row {
           display: flex;
           justify-content: space-between;
-        
         }
       }
     }
   }
   #today {
     .day-info {
-        display: flex;
-        gap: 1rem;
-        #dayDisplay {
-            /* fix alignment */
-        }
+      display: flex;
+      gap: 1rem;
+      #dayDisplay {
+        /* fix alignment */
+      }
     }
+  }
+}
+
+footer {
+  div {
+    margin: 0 auto;
+    display: flex;
+    align-self: flex-end;
   }
 }

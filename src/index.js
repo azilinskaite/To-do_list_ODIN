@@ -2,6 +2,7 @@ import "./styles.css";
 import { format } from "date-fns";
 import { el } from "date-fns/locale";
 
+// DATE FORMATTING (for all the dates?)
 const now = new Date();
 document.getElementById("dateDisplay").innerHTML = format(now, "yyyy-MM-dd");
 
@@ -25,10 +26,6 @@ const doLaterList = document.querySelector("#later-list");
 const tasksToday = [];
 const tasksLater = [];
 
-// GET INPUT FROM MODAL
-
-// CREATE NEW LIST ITEM
-
 // CONSTRUCTOR FUNCTION for Task
 function Task(title, description, dueDate, priority) {
   this.title = title;
@@ -37,7 +34,7 @@ function Task(title, description, dueDate, priority) {
   this.priority = priority;
 }
 
-// CREATE TASK AND APPEND TO THE LIST
+// CREATE (EMPTY) TASK AND APPEND TO THE LIST
 function createTask() {
   let tasksList = document.querySelector("#later-list");
   tasksList.innerHTML = "";
@@ -45,13 +42,20 @@ function createTask() {
     let task = tasksLater[i];
     let taskLine = document.createElement("li");
     taskLine.setAttribute("class", "toDo");
+    taskLine.setAttribute("data-index", i);
     taskLine.innerHTML = `
-        <h3>${task.title}</h3>
+        <div class="toDo-top-line">
+            <h3>${task.title}</h3>
+            <div class="task-buttons">
+                <button type="button" id="done-button">✅</button>
+                <button type="button" id="delete-button">❌</button>
+            </div>
+        </div>
         <p>${task.description}</p>
-         <div class="details-row">
-             <div>${task.dueDate}</div>
-             <div>${task.priority}</div>
-         </div>
+            <div class="details-row">
+                <div>${task.dueDate}</div>
+                <div>${task.priority}</div>
+             </div>
           `;
     tasksList.appendChild(taskLine);
   }
@@ -66,11 +70,11 @@ function addTask(event) {
   let title = document.querySelector("#title").value;
   let description = document.querySelector("#description").value;
   let dueDate = document.querySelector("#due-date").value;
-
+  // display priority options text according to their index
   let prioritySelect = document.querySelector("#priority-select");
   let priorityValue = prioritySelect.value;
   let priorityText = prioritySelect.options[prioritySelect.selectedIndex].text;
-
+  // create new task using user's input
   let newTask = new Task(title, description, dueDate, priorityText);
   // adding tasks to Later list
   tasksLater.push(newTask);
@@ -83,18 +87,13 @@ function addTask(event) {
 // ADD EVENT LISTENER TO THE FORM SUBMIT BUTTON
 form.addEventListener("submit", addTask);
 
-// DATE CHOICE & FORMATTING
-// const dueDate = document.querySelector(".due-date");
-// dueDate.classList.add("details-popup__due");
-// const day = format(new Date(todos[i].date), "do");
-// const month = format(new Date(todos[i].date), "MMMM");
-// const year = format(new Date(todos[i].date), "yyyy");
-// const formatedDate = `${month} ${day}, ${year}`;
-// dateContent.textContent = formatedDate;
-// dueDate.appendChild(dateContent);
-
-// create to-do item checkbox
-// const toDoCheckBox = document.createElement('div');
-// toDoCheckBox.classList.add('todo__complete');
-// toDoCheckBox.addEventListener('click', e => toggleCheckBox(e, todos, element));
-
+// ADD EVENT LISTENERS TO DONE AND DELETE BUTTONS
+// ...to be continued
+function removeTask(index) {
+    const deleteButton = document.querySelector("#delete-button");
+    deleteButton.addEventListener("click", function(e) {
+        tasksList.splice(index, 1);
+    render();
+    }
+)
+  }
