@@ -50,7 +50,7 @@ header {
   border: 2px solid black;
   border-radius: 1rem;
   background-color: rgb(245, 243, 215);
-  #new-book-form {
+  #new-task-form {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
@@ -101,8 +101,9 @@ header {
     }
     ul {
       list-style: none;
-      li {
-        border-bottom: 2px solid black;
+      .toDo {
+        border-bottom: 2px solid blue;
+        margin-bottom: 1rem;
         .details-row {
           display: flex;
           justify-content: space-between;

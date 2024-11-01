@@ -1,7 +1,6 @@
 import "./styles.css";
 
-// MODAL
-
+// MODAL: open & close
 const openButton = document.querySelector("[data-open-modal]");
 const closeButton = document.querySelector("[data-close-modal]");
 const modal = document.querySelector("[data-modal]");
@@ -14,63 +13,64 @@ closeButton.addEventListener("click", () => {
   modal.close();
 });
 
-// GET INPUT FROM MODAL
-
-const taskTitle = document.querySelector("#title");
+// DEFINE SECTIONS
+const form = document.querySelector("#new-task-form");
 const doTodayList = document.querySelector("#today-list");
 const doLaterList = document.querySelector("#later-list");
+const tasksToday = [];
+const tasksLater = [];
+
+// GET INPUT FROM MODAL
 
 // CREATE NEW LIST ITEM
 
+// CONSTRUCTOR FUNCTION for Task
+function Task(title, description, dueDate, priority) {
+  this.title = title;
+  this.description = description;
+  this.dueDate = dueDate;
+  this.priority = priority;
+}
 
-// LIBRARY EXAMPLE
-// const myLibrary = [];
+// CREATE TASK AND APPEND TO THE LIST
+function createTask() {
+  let tasksList = document.querySelector("#later-list");
+  tasksList.innerHTML = "";
+  for (let i = 0; i < tasksLater.length; i++) {
+    let task = tasksLater[i];
+    let taskLine = document.createElement("li");
+    taskLine.setAttribute("class", "toDo");
+    taskLine.innerHTML = `
+        <h3>${task.title}</h3>
+        <p>${task.description}</p>
+         <div class="details-row">
+             <div>${task.dueDate}</div>
+             <div>${task.priority}</div>
+         </div>
+          `;
+    tasksList.appendChild(taskLine);
+  }
+}
 
-// function Book(title, author, pages, read) {
-//   this.title = title;
-//   this.author = author;
-//   this.pages = pages;
-//   this.read = read;
-// }
+// ADD USER'S INPUT TO A TASK
+function addTask(event) {
+  // prevent from submission
+  event.preventDefault();
 
-// function render() {
-//     let libraryBook = document.querySelector("#books-container"); // why query selector for whole container?
-//     libraryBook.innerHTML = "";
-//     for (let i = 0; i < myLibrary.length; i++) {
-//       let book = myLibrary[i];
-//       let bookVisual = document.createElement("div");
-//       bookVisual.setAttribute("class", "book-card");
-//       bookVisual.innerHTML = `
-//           <h2 class="title">${book.title}</h2>
-//           <h4 class="author">${book.author}</h4>
-//           <p>${book.pages} pages</p>
-//           <p class="read-status">${book.read ? "Read" : "Want to read"}</p>
-//           <button class="toggle-read-btn" onclick="toggleRead(${i})">Change read status</button>
-//           <button class="remove-btn" onclick="removeBook(${i})">Remove</button>
-//           `;
-//       libraryBook.appendChild(bookVisual);
-//     }
-//   }
-  
-//   function removeBook(index) {
-//       myLibrary.splice(index, 1);
-//       render();
-//   }
-  
-//   function addBook() {
-//     let title = document.querySelector("#title").value;
-//     let author = document.querySelector("#author").value;
-//     let pages = document.querySelector("#pages").value;
-//     let read = document.querySelector("#read").checked;
-  
-//     let newBook = new Book(title, author, pages, read);
-//     myLibrary.push(newBook);
-//     render();
-//     modal.close();
-//   }
+  // make connection to form inputs
+  let title = document.querySelector("#title").value;
+  let description = document.querySelector("#description").value;
+  let dueDate = document.querySelector("#date").textContent;
+  let priority = document.querySelector(".custom-select select").value;
 
+  let newTask = new Task(title, description, dueDate, priority);
+  // adding tasks to Later list
+  tasksLater.push(newTask);
+  createTask();
+  // clear form and close modal
+  form.reset();
+  modal.close();
+}
 
-
-
-
-
+// ADD EVENT LISTENER TO THE FORM SUBMIT BUTTON
+form.addEventListener("submit", addTask);
