@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>To-Do list</title>
+    <title>🗒️ To-Do list</title>
   </head>
   <body>
     <header>
@@ -12,18 +12,18 @@
     </header>
 
     <main>
-
       <dialog data-modal class="modal">
         <form id="new-task-form">
           <label for="title">Title</label>
-          <input type="text" id="title" name="title" required/>
+          <input type="text" id="title" name="title" required />
           <label for="description">Description</label>
           <input type="text" id="description" name="description" required />
 
           <div class="details-row">
-            <div id="date">2024</div>
+            <input type="date" id="due-date" name="due-date" required />
+            <div id="due-date"></div>
             <div class="custom-select">
-              <select>
+              <select id="priority-select">
                 <option value="0">Priority</option>
                 <option value="1">Urgent</option>
                 <option value="2">Medium</option>
@@ -31,11 +31,15 @@
               </select>
             </div>
           </div>
-          
 
           <div class="buttons">
             <button type="submit" id="add-btn">Add</button>
-            <button id="close-btn" data-close-modal type="button" formmethod="dialog">
+            <button
+              id="close-btn"
+              data-close-modal
+              type="button"
+              formmethod="dialog"
+            >
               Close
             </button>
           </div>
@@ -44,9 +48,11 @@
 
       <div class="tasks-section">
         <div id="today">
-          <h2>TODAY<span>Date</span></h2>
-          <ul id="today-list">
-        </ul>
+          <div class="day-info">
+            <h2>TODAY</h2>
+            <div id="dateDisplay">Date shown here</div>
+          </div>
+          <ul id="today-list"></ul>
         </div>
 
         <div id="later">
@@ -54,7 +60,6 @@
           <ul id="later-list"></ul>
         </div>
       </div>
-
     </main>
   </body>
 </html>

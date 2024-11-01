@@ -112,4 +112,13 @@ header {
       }
     }
   }
+  #today {
+    .day-info {
+        display: flex;
+        gap: 1rem;
+        #dayDisplay {
+            /* fix alignment */
+        }
+    }
+  }
 }

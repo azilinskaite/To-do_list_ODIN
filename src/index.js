@@ -1,4 +1,9 @@
 import "./styles.css";
+import { format } from "date-fns";
+import { el } from "date-fns/locale";
+
+const now = new Date();
+document.getElementById("dateDisplay").innerHTML = format(now, "yyyy-MM-dd");
 
 // MODAL: open & close
 const openButton = document.querySelector("[data-open-modal]");
@@ -60,10 +65,13 @@ function addTask(event) {
   // make connection to form inputs
   let title = document.querySelector("#title").value;
   let description = document.querySelector("#description").value;
-  let dueDate = document.querySelector("#date").textContent;
-  let priority = document.querySelector(".custom-select select").value;
+  let dueDate = document.querySelector("#due-date").value;
 
-  let newTask = new Task(title, description, dueDate, priority);
+  let prioritySelect = document.querySelector("#priority-select");
+  let priorityValue = prioritySelect.value;
+  let priorityText = prioritySelect.options[prioritySelect.selectedIndex].text;
+
+  let newTask = new Task(title, description, dueDate, priorityText);
   // adding tasks to Later list
   tasksLater.push(newTask);
   createTask();
@@ -74,3 +82,19 @@ function addTask(event) {
 
 // ADD EVENT LISTENER TO THE FORM SUBMIT BUTTON
 form.addEventListener("submit", addTask);
+
+// DATE CHOICE & FORMATTING
+// const dueDate = document.querySelector(".due-date");
+// dueDate.classList.add("details-popup__due");
+// const day = format(new Date(todos[i].date), "do");
+// const month = format(new Date(todos[i].date), "MMMM");
+// const year = format(new Date(todos[i].date), "yyyy");
+// const formatedDate = `${month} ${day}, ${year}`;
+// dateContent.textContent = formatedDate;
+// dueDate.appendChild(dateContent);
+
+// create to-do item checkbox
+// const toDoCheckBox = document.createElement('div');
+// toDoCheckBox.classList.add('todo__complete');
+// toDoCheckBox.addEventListener('click', e => toggleCheckBox(e, todos, element));
+
