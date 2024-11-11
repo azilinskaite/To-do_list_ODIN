@@ -145,17 +145,22 @@ function markTaskAsDone(taskElement) {
 }
 
 // SAVING IN LOCAL STORAGE
-function saveTasksToLocalStorage() {
-  localStorage.setItem('tasks', JSON.stringify(tasksLater));
+export function saveTasksToLocalStorage() {
+  localStorage.setItem("tasks", JSON.stringify(tasksLater));
 }
 
 // LOADING DATA FROM LOCAL STORAGE
-function loadTasksFromLocalStorage() {
-  const storedTasks = localStorage.getItem('tasks');
+export function loadTasksFromLocalStorage() {
+  const storedTasks = localStorage.getItem("tasks");
   if (storedTasks) {
     tasksLater.length = 0; // Clear the existing array
-    JSON.parse(storedTasks).forEach(task => {
-      const newTask = new Task(task.title, task.description, task.dueDate, task.priority);
+    JSON.parse(storedTasks).forEach((task) => {
+      const newTask = new Task(
+        task.title,
+        task.description,
+        task.dueDate,
+        task.priority
+      );
       newTask.done = task.done;
       tasksLater.push(newTask);
     });
