@@ -6,6 +6,12 @@ import { el } from "date-fns/locale";
 const now = new Date();
 document.getElementById("dateDisplay").innerHTML = format(now, "yyyy-MM-dd");
 
+// DISPLAY DATA FROM LOCAL STORAGE ON LOAD
+window.addEventListener('load', () => {
+  loadTasksFromLocalStorage();
+  createTask();
+});
+
 // MODAL: open & close
 const openButton = document.querySelector("[data-open-modal]");
 const closeButton = document.querySelector("[data-close-modal]");
@@ -91,6 +97,7 @@ function addTask(event) {
   let newTask = new Task(title, description, dueDate, priorityText);
   // adding tasks to Later list
   tasksLater.push(newTask);
+  saveTasksToLocalStorage();
   createTask();
   // clear form and close modal
   form.reset();
@@ -125,6 +132,7 @@ function handleTaskAction(e) {
 function removeTask(taskElement) {
   const index = parseInt(taskElement.getAttribute("data-index"));
   tasksLater.splice(index, 1);
+  saveTasksToLocalStorage();
   createTask();
 }
 
@@ -132,5 +140,25 @@ function removeTask(taskElement) {
 function markTaskAsDone(taskElement) {
   const index = parseInt(taskElement.getAttribute("data-index"));
   tasksLater[index].done = true;
+  saveTasksToLocalStorage();
   createTask();
 }
+
+// SAVING IN LOCAL STORAGE
+function saveTasksToLocalStorage() {
+  localStorage.setItem('tasks', JSON.stringify(tasksLater));
+}
+
+// LOADING DATA FROM LOCAL STORAGE
+function loadTasksFromLocalStorage() {
+  const storedTasks = localStorage.getItem('tasks');
+  if (storedTasks) {
+    tasksLater.length = 0; // Clear the existing array
+    JSON.parse(storedTasks).forEach(task => {
+      const newTask = new Task(task.title, task.description, task.dueDate, task.priority);
+      newTask.done = task.done;
+      tasksLater.push(newTask);
+    });
+  }
+}
+
