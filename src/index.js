@@ -21,8 +21,6 @@ closeButton.addEventListener("click", () => {
 
 // DEFINE SECTIONS
 const form = document.querySelector("#new-task-form");
-const doTodayList = document.querySelector("#today-list");
-const doLaterList = document.querySelector("#later-list");
 const tasksToday = [];
 const tasksLater = [];
 
@@ -30,49 +28,64 @@ const tasksLater = [];
 function Task(title, description, dueDate, priority) {
   this.title = title;
   this.description = description;
-  this.dueDate = dueDate;
+  this.dueDate = new Date(dueDate);
   this.priority = priority;
+  this.done = false;
 }
 
-// CREATE (EMPTY) TASK AND APPEND TO THE LIST
+// CREATE (EMPTY) TASK AND APPEND TO ONE OF THE LISTS
 function createTask() {
-  let tasksList = document.querySelector("#later-list");
-  tasksList.innerHTML = "";
-  for (let i = 0; i < tasksLater.length; i++) {
-    let task = tasksLater[i];
-    let taskLine = document.createElement("li");
-    taskLine.setAttribute("class", "toDo");
-    taskLine.setAttribute("data-index", i);
-    taskLine.innerHTML = `
-        <div class="toDo-top-line">
-            <h3>${task.title}</h3>
-            <div class="task-buttons">
-                <button type="button" id="done-button">✅</button>
-                <button type="button" id="delete-button">❌</button>
-            </div>
-        </div>
-        <p>${task.description}</p>
-            <div class="details-row">
-                <div>${task.dueDate}</div>
-                <div>${task.priority}</div>
-             </div>
-          `;
-    tasksList.appendChild(taskLine);
+  let todayList = document.querySelector("#today-list");
+  let laterList = document.querySelector("#later-list");
+  todayList.innerHTML = "";
+  laterList.innerHTML = "";
+
+  tasksLater.forEach((task, index) => {
+    let taskLine = createTaskElement(task, index);
+    
+    if (isToday(task.dueDate)) {
+      todayList.appendChild(taskLine);
+    } else {
+      laterList.appendChild(taskLine);
+    }
+  });
+}
+
+// ADD TASK CONTENT TO ONE OF THE LISTS
+function createTaskElement(task, index) {
+  let taskLine = document.createElement("li");
+  taskLine.setAttribute("class", "toDo");
+  if (task.done) {
+    taskLine.classList.add('done');
   }
+  taskLine.setAttribute("data-index", index);
+  taskLine.innerHTML = `
+    <div class="toDo-top-line">
+        <h3>${task.title}</h3>
+        <div class="task-buttons">
+            <button type="button" class="done-button">&#x2713;</button>
+            <button type="button" class="delete-button">&times;</button>
+        </div>
+    </div>
+    <p>${task.description}</p>
+        <div class="details-row">
+            <div>${task.dueDate.toDateString()}</div>
+            <div>${task.priority}</div>
+         </div>
+      `;
+  return taskLine;
 }
 
 // ADD USER'S INPUT TO A TASK
 function addTask(event) {
   // prevent from submission
   event.preventDefault();
-
   // make connection to form inputs
   let title = document.querySelector("#title").value;
   let description = document.querySelector("#description").value;
   let dueDate = document.querySelector("#due-date").value;
   // display priority options text according to their index
   let prioritySelect = document.querySelector("#priority-select");
-  let priorityValue = prioritySelect.value;
   let priorityText = prioritySelect.options[prioritySelect.selectedIndex].text;
   // create new task using user's input
   let newTask = new Task(title, description, dueDate, priorityText);
@@ -87,13 +100,37 @@ function addTask(event) {
 // ADD EVENT LISTENER TO THE FORM SUBMIT BUTTON
 form.addEventListener("submit", addTask);
 
-// ADD EVENT LISTENERS TO DONE AND DELETE BUTTONS
-// ...to be continued
-function removeTask(index) {
-    const deleteButton = document.querySelector("#delete-button");
-    deleteButton.addEventListener("click", function(e) {
-        tasksList.splice(index, 1);
-    render();
-    }
-)
+// CHECK IF TASK BELONGS TO TODAY'S LIST
+function isToday(date) {
+  const today = new Date();
+  return date.getDate() === today.getDate() &&
+         date.getMonth() === today.getMonth() &&
+         date.getFullYear() === today.getFullYear();
+}
+
+// ADD EVENT LISTENERS FOR DONE AND DELETE TASK BUTTONS
+document.querySelector("#today-list").addEventListener("click", handleTaskAction);
+document.querySelector("#later-list").addEventListener("click", handleTaskAction);
+
+// HANDLE DONE AND DELETE ACTIONS
+function handleTaskAction(e) {
+  if (e.target.classList.contains("delete-button")) {
+    removeTask(e.target.closest("li"));
+  } else if (e.target.classList.contains("done-button")) {
+    markTaskAsDone(e.target.closest("li"));
   }
+}
+
+// REMOVE TASK FUNCTION
+function removeTask(taskElement) {
+  const index = parseInt(taskElement.getAttribute("data-index"));
+  tasksLater.splice(index, 1);
+  createTask();
+}
+
+// MARK TASK AS DONE FUNCTION
+function markTaskAsDone(taskElement) {
+  const index = parseInt(taskElement.getAttribute("data-index"));
+  tasksLater[index].done = true;
+  createTask();
+}
