@@ -122,8 +122,6 @@ header {
       list-style: none;
       .toDo {
         margin-bottom: 1rem;
-        padding: 1rem;
-        background-color: var(--off-white);
         border-bottom: 2px solid var(--accent);
         .toDo-top-line {
           display: flex;
