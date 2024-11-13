@@ -9,7 +9,7 @@
 :root {
   --black: #1a1a1a;
   --off-white: #f7f6f3;
-  --off-darker: #f2eae6;
+  --off-darker: #7498ea;
   --accent: #cd3845;
 }
 
@@ -21,26 +21,25 @@ body {
   background-color: var(--off-white);
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.8rem 2rem 2rem 0.4rem;
+  padding: 0.2rem 2rem 0.2rem 1rem;
   background-color: var(--black);
   color: var(--off-white);
   #logo {
     h1 {
       font-family: "Poppins", sans-serif;
-      font-weight: 800;
-      font-size: 5rem;
-      line-height: 95%;
-    }
-    p {
-      font-weight: 200;
-      font-size: 0.8rem;
-      margin-top: 0.4rem;
-      margin-left: 0.2rem;
-      word-spacing: 1rem;
+      font-weight: 700;
+      font-size: 6rem;
+      line-height: 0.98;
     }
   }
   #submit-button {
@@ -110,10 +109,9 @@ header {
 .tasks-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
   #today,
   #later {
-    padding: 2rem;
+    padding: 1rem;
     h2 {
       margin-bottom: 1rem;
       align-self: center;
@@ -122,7 +120,8 @@ header {
       list-style: none;
       .toDo {
         margin-bottom: 1rem;
-        border-bottom: 2px solid var(--accent);
+        padding: 1rem;
+        background-color: var(--off-darker);
         .toDo-top-line {
           display: flex;
           flex-direction: row;
@@ -132,8 +131,7 @@ header {
             button {
               border-style: none;
               background-color: transparent;
-              color: white;
-              background-color: grey;
+              border: 1px solid black;
               width: 1.4rem;
               height: 1.4rem;
               border-radius: 50%;
@@ -165,12 +163,21 @@ header {
 }
 
 footer {
-  div {
-    margin: 0 auto;
-    display: flex;
-    align-self: flex-end;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--black);
+  color: var(--off-white);
+  display: flex;
+  justify-content: space-between;
+  p {
+    font-weight: 300;
+    font-size: 1rem;
   }
 }
+
 .done {
   text-decoration: line-through;
   opacity: 0.7;
